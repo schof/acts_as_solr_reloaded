@@ -22,7 +22,7 @@ require File.dirname(__FILE__) + '/acts_as_solr/mongo_mapper'
 
 module ActsAsSolr
 
-  class Post    
+  class Post
     def self.execute(request, core = nil)
       config_file_path = File.join(Rails.root, '/config/solr.yml')
       config = YAML::load_file(config_file_path)[Rails.env]
@@ -37,3 +37,5 @@ end
 
 # reopen ActiveRecord and include the acts_as_solr method
 ActiveRecord::Base.extend ActsAsSolr::ActsMethods
+
+require 'acts_as_solr/engine' if defined?(Rails)
