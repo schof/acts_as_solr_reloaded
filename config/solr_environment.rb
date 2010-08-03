@@ -4,9 +4,12 @@ require "uri"
 require "fileutils"
 require "yaml"
 dir = File.dirname(__FILE__)
+SOLR_PATH = ENV['SOLR_PATH']
 SOLR_PATH = File.expand_path("#{dir}/../solr") unless defined? SOLR_PATH
 
 RAILS_ROOT = File.expand_path("#{File.dirname(__FILE__)}/../test") unless defined? RAILS_ROOT
+RAILS_ROOT ||= Rails.root
+
 unless defined? SOLR_LOGS_PATH
   SOLR_LOGS_PATH = ENV["SOLR_LOGS_PATH"] || "#{RAILS_ROOT}/log"
 end
@@ -21,7 +24,7 @@ unless defined? SOLR_CONFIG_PATH
 end
 
 unless defined? SOLR_PORT
-  config = YAML::load_file(RAILS_ROOT+'/config/solr.yml')
+  config = YAML::load_file(RAILS_ROOT+'config/solr.yml')
   raise("No solr environment defined for RAILS_ENV the #{ENV['RAILS_ENV'].inspect}") unless config[ENV['RAILS_ENV']]
   SOLR_PORT = ENV['PORT'] || URI.parse(config[ENV['RAILS_ENV']]['url']).port
 end
